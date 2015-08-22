@@ -153,6 +153,8 @@ module.exports = function (grunt) {
         options: {
           vendor: [
             // Your bower_components scripts<% if (includeBootstrap) { %>
+            // bower:js
+            // endbower
 <% bsPlugins.forEach(function (plugin, index, array) { -%>
             '<%= bsPath + plugin %>.js'<% if (index < (array.length - 1)) { %>,<% } %>
 <% }) -%><% } %>          ],
@@ -235,6 +237,25 @@ module.exports = function (grunt) {
         exclude: ['bootstrap.js'],
 <% } -%>
         ignorePath: /^(\.\.\/)*\.\./
+      },
+      test: {
+        devDependencies: true,
+        src: 'Gruntfile.js',
+<% if (includeBootstrap) { -%>
+        exclude: ['bootstrap.js'],
+<% } -%>
+        ignorePath: /^(\.\.\/)*\.\./,
+        fileTypes: {
+          js: {
+            block: /(([\s\t]*)\/{2}\s*?bower:\s*?(\S*))(\n|\r|.)*?(\/{2}\s*endbower)/gi,
+            detect: {
+              js: /'(.*\.js)'/gi
+            },
+            replace: {
+              js: '\'{{filePath}}\','
+            }
+          }
+        }
       }<% if (includeSass) { %>,
       sass: {
         src: ['<%%= config.app %>/styles/{,*/}*.{scss,sass}'],
