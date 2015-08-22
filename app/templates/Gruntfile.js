@@ -155,9 +155,10 @@ module.exports = function (grunt) {
             // Your bower_components scripts<% if (includeBootstrap) { %>
             // bower:js
             // endbower
-<% bsPlugins.forEach(function (plugin, index, array) { -%>
-            '<%= bsPath + plugin %>.js'<% if (index < (array.length - 1)) { %>,<% } %>
-<% }) -%><% } %>          ],
+<% bsPlugins.forEach(function (plugin) { -%>
+            '<%= bsPath + plugin %>.js',
+<% }) -%><% } %>            '/test/.dummy.js'
+          ],
           specs: '{test,.tmp}/spec/{,*/}*.js',
           helpers: '{test,.tmp}/helpers/{,*/}*.js',
           host: 'http://<%%= browserSync.test.options.host %>:<%%= browserSync.test.options.port %>'

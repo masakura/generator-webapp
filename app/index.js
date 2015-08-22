@@ -264,6 +264,16 @@ module.exports = generators.Base.extend({
     misc: function () {
       mkdirp('app/images');
       mkdirp('app/fonts');
+    },
+
+    dummy: function () {
+      if (this.options['test-framework'] === 'jasmine') {
+        // This dummy js was wiredep for Gruntfile
+        this.fs.copy(
+          this.templatePath('dummy.js'),
+          this.destinationPath('test/.dummy.js')
+        );
+      }
     }
   },
 
