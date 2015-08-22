@@ -114,6 +114,8 @@ module.exports = generators.Base.extend({
           includeSass: this.includeSass,
           includeBootstrap: this.includeBootstrap,
           includeModernizr: this.includeModernizr,
+          bsPath: this.getBsPath(),
+          bsPlugins: this.getBsPlugins(),
           testFramework: this.options['test-framework'],
           useBabel: this.options['babel']
         }
@@ -226,17 +228,6 @@ module.exports = generators.Base.extend({
     },
 
     html: function () {
-      var bsPath;
-
-      // path prefix for Bootstrap JS files
-      if (this.includeBootstrap) {
-        if (this.includeSass) {
-          bsPath = '/bower_components/bootstrap-sass/assets/javascripts/bootstrap/';
-        } else {
-          bsPath = '/bower_components/bootstrap/js/';
-        }
-      }
-
       this.fs.copyTpl(
         this.templatePath('index.html'),
         this.destinationPath('app/index.html'),
@@ -245,21 +236,8 @@ module.exports = generators.Base.extend({
           includeSass: this.includeSass,
           includeBootstrap: this.includeBootstrap,
           includeModernizr: this.includeModernizr,
-          bsPath: bsPath,
-          bsPlugins: [
-            'affix',
-            'alert',
-            'dropdown',
-            'tooltip',
-            'modal',
-            'transition',
-            'button',
-            'popover',
-            'carousel',
-            'scrollspy',
-            'collapse',
-            'tab'
-          ]
+          bsPath: this.getBsPath(),
+          bsPlugins: this.getBsPlugins()
         }
       );
     },
@@ -327,5 +305,34 @@ module.exports = generators.Base.extend({
         ignorePath: /^(\.\.\/)+/
       });
     }
+  },
+
+  getBsPath: function () {
+    // path prefix for Bootstrap JS files
+    if (this.includeBootstrap) {
+      if (this.includeSass) {
+        return '/bower_components/bootstrap-sass/assets/javascripts/bootstrap/';
+      } else {
+        return '/bower_components/bootstrap/js/';
+      }
+    }
+    return '';
+  },
+
+  getBsPlugins: function () {
+    return [
+      'affix',
+      'alert',
+      'dropdown',
+      'tooltip',
+      'modal',
+      'transition',
+      'button',
+      'popover',
+      'carousel',
+      'scrollspy',
+      'collapse',
+      'tab'
+    ];
   }
 });
