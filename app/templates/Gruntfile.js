@@ -238,7 +238,7 @@ module.exports = function (grunt) {
         exclude: ['bootstrap.js'],
 <% } -%>
         ignorePath: /^(\.\.\/)*\.\./
-      },
+      }<% if (testFramework === 'jasmine') { %>,
       test: {
         devDependencies: true,
         src: 'Gruntfile.js',
@@ -257,7 +257,7 @@ module.exports = function (grunt) {
             }
           }
         }
-      }<% if (includeSass) { %>,
+      }<% } %><% if (includeSass) { %>,
       sass: {
         src: ['<%%= config.app %>/styles/{,*/}*.{scss,sass}'],
         ignorePath: /^(\.\.\/)+/
